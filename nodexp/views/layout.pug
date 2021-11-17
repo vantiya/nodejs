@@ -1,0 +1,46 @@
+doctype html
+html
+	head
+		title Node and Express with Pug
+		link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.css")
+		link(rel="stylesheet", href="/css/style.css")
+	body
+		nav.navbar.navbar-inverse
+			.container
+				.navbar-header
+					button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand(href='/') Node Express
+				#navbar.collapse.navbar-collapse
+					ul.nav.navbar-nav
+						li
+							a(href='/') Home
+						if user
+							li
+								a(href='/blogs/add') Add Blog
+					ul.nav.navbar-nav.navbar-right
+						if user 
+							li 
+								a(href='/users/logout') Logout
+						else
+							li 
+								a(href='/users/register')
+							li
+								a(href='/users/login')
+		.container
+			!= messages('message', locals)
+			if errors
+				each error ,i in errors 
+					div(class="alert alert-danger") #{error.msg}
+			block content
+
+			br
+			hr
+			footer
+			p Copytright &copy; 2021
+		//- script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
+		script(src="/bower_components/bootstrap/dist/js/bootstrap.js")
+		script(src="/js/index.js")

@@ -1,0 +1,12 @@
+h1{ color: grey;}
+.alert-error {
+    color: #A94442;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+}
+
+.alert-success_msg{
+    color: #3C763D;
+    background-color: #DFF0D8;
+    border-color: #EBCCD1;
+}

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST' action='/blogs/edit/'+blog._id)
+        #form-group
+            label Title: 
+            input.form-control(name='title' type='text' value=blog.title)
+        br       
+        #form-group
+            label Content: 
+            textarea.form-control(name="content", cols="30", rows="10")= blog.content
+        br
+        input.btn.btn-primary(type='submit' value='Edit Blog')

@@ -1,0 +1,22 @@
+{
+  "name": "nodexp",
+  "version": "1.0.0",
+  "description": "Simple Node Express Tests",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Parvez Vantiya",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.13.0",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "pug": "^3.0.2"
+  }
+}

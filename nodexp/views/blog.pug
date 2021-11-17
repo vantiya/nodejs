@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h1= blog.title
+    p= blog.content
+    span Written by #{author}
+    hr
+    if user
+        if user.id == blog.author
+            a.btn.btn-default(href="/blogs/edit/"+blog._id) Edit
+            a.btn.btn-danger.delete-blog(href="#", data-id=blog._id) Delete

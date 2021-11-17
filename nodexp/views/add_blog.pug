@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST' action='/blogs/add')
+        br
+        #form-group
+            label Title: 
+            input.form-control(name='title' type='text')
+        br
+        #form-group
+            label Content: 
+            textarea.form-control(name="content", cols="30", rows="10")
+        br
+        input.btn.btn-primary(type='submit' value='Add Blog')
