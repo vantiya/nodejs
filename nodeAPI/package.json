@@ -1,0 +1,30 @@
+{
+  "name": "nodeapi-project",
+  "version": "1.0.0",
+  "description": "This small project is created to learn how to connect with API using Express, MongoDB, Mangoose. I have used natours API for testing and learning purpose.",
+  "main": "app.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vantiya/nodejs.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "Routes",
+    "MongoDB",
+    "Monagoose",
+    "API",
+    "JS"
+  ],
+  "author": "Parvez Vantiya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vantiya/nodejs/issues"
+  },
+  "homepage": "https://github.com/vantiya/nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
