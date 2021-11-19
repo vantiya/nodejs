@@ -11,16 +11,16 @@ const tours = JSON.parse(
 );
 
 // Get all tours
-app.get("/api/v1/tours", (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: "success",
         total_tours: tours.length,
         tours,
     });
-});
+};
 
 // Get tour by id
-app.get("/api/v1/tours/:id", (req, res) => {
+const getTourById = (req, res) => {
     console.log(req.params);
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
@@ -35,11 +35,10 @@ app.get("/api/v1/tours/:id", (req, res) => {
         total_tours: 1,
         tour,
     });
-});
+};
 
 // Create Tour
-app.post("/api/v1/tours", (req, res) => {
-    console.log(req);
+const createTour = (req, res) => {
     const newID = tours[tours.length - 1].id + 1;
     const newTour = Object.assign({ id: newID }, req.body);
     tours.push(newTour);
@@ -53,10 +52,10 @@ app.post("/api/v1/tours", (req, res) => {
             });
         }
     );
-});
+};
 
 // Update Tour
-app.patch("/api/v1/tours/:id", (req, res) => {
+const updateTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = tours.find((el) => el.id === id);
     if (!tour) {
@@ -68,14 +67,69 @@ app.patch("/api/v1/tours/:id", (req, res) => {
     res.status(200).json({
         status: "success",
     });
-});
+};
 
 // Delete Tour
-app.delete("/api/v1/tours/:id", (req, res) => {
+const deleteTour = (req, res) => {
     res.status(204).json({
         status: "success",
     });
-});
+};
+
+// Get all users
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status: "Internal Server Error",
+        message: "Route not Exists",
+    });
+};
+// create New User
+const createUser = (req, res) => {
+    res.status(500).json({
+        status: "Internal Server Error",
+        message: "Route not Exists",
+    });
+};
+// Fetch user by Id
+const getUserByID = (req, res) => {
+    res.status(500).json({
+        status: "Internal Server Error",
+        message: "Route not Exists",
+    });
+};
+// User User
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status: "Internal Server Error",
+        message: "Route not Exists",
+    });
+};
+// Delete User
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status: "Internal Server Error",
+        message: "Route not Exists",
+    });
+};
+// app.get("/api/v1/tours", getAllTours);
+// app.get("/api/v1/tours/:id", getTourById);
+// app.post("/api/v1/tours", createTour);
+// app.patch("/api/v1/tours/:id", updateTour);
+// app.delete("/api/v1/tours/:id", deleteTour);
+
+// tours routes
+app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app.route("/api/v1/tours/:id")
+    .get(getTourById)
+    .patch(updateTour)
+    .delete(deleteTour);
+
+// Users Routes
+app.route("/api/v1/users").get(getAllUsers).post(createUser);
+app.route("/api/v1/users/:id")
+    .get(getUserByID)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 // Start the server
 const port = 3000;
