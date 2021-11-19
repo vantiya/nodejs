@@ -6,7 +6,10 @@ const {
     getUserByID,
     updateUser,
     deleteUser,
+    isUserIdExists,
 } = require("../controllers/userController");
+
+appRoute.param("id", isUserIdExists);
 
 appRoute.route("/").get(getAllUsers).post(createUser);
 appRoute.route("/:id").get(getUserByID).patch(updateUser).delete(deleteUser);

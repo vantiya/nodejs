@@ -5,6 +5,28 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/../api-data/data/tours-simple.json`)
 );
 
+exports.isTourIdExists = (req, res, next, val) => {
+    const id = val * 1;
+    const tour = tours.find((el) => el.id === id);
+    if (!tour) {
+        return res.status(404).json({
+            status: "failed",
+            message: `No tour found for matching id ${id}`,
+        });
+    }
+    next();
+};
+
+exports.isBodyExists = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: "Failed",
+            message: "Body required atleast name and price of the product",
+        });
+    }
+    next();
+};
+
 // Get all tours
 exports.getAllTours = (req, res) => {
     res.status(200).json({
@@ -16,14 +38,8 @@ exports.getAllTours = (req, res) => {
 
 // Get tour by id
 exports.getTourById = (req, res) => {
-    const id = req.params.id * 1;
+    const id = req.param.id * 1;
     const tour = tours.find((el) => el.id === id);
-    if (!tour) {
-        return res.status(404).json({
-            status: "failed",
-            message: `No tour found for matching id ${id}`,
-        });
-    }
     res.status(200).json({
         status: "success",
         total_tours: 1,
@@ -50,14 +66,6 @@ exports.createTour = (req, res) => {
 
 // Update Tour
 exports.updateTour = (req, res) => {
-    const id = req.params.id * 1;
-    const tour = tours.find((el) => el.id === id);
-    if (!tour) {
-        return res.status(404).json({
-            status: "failed",
-            message: `No tour found for the id ${id}`,
-        });
-    }
     res.status(200).json({
         status: "success",
     });

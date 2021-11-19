@@ -4,6 +4,7 @@
   "description": "This small project is created to learn how to connect with API using Express, MongoDB, Mangoose. I have used natours API for testing and learning purpose.",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
