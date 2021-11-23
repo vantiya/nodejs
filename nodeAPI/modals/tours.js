@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 // console.log(mongoose);
 
+// const tourSchema = new mongoose.Schema({
 const tourSchema = new Schema({
     name: {
         type: String,

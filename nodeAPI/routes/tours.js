@@ -6,8 +6,8 @@ const {
     getTourById,
     updateTour,
     deleteTour,
-    isTourIdExists,
-    isBodyExists,
+    // isTourIdExists,
+    // isBodyExists,
 } = require("../controllers/tourController");
 
 // const tourController = require("../controllers/tourController");
@@ -19,9 +19,9 @@ const {
 // app.patch("/api/v1/tours/:id", updateTour);
 // app.delete("/api/v1/tours/:id", deleteTour);
 
-appRoute.param("id", isTourIdExists);
+// appRoute.param("id", isTourIdExists);
 
-appRoute.route("/").get(getAllTours).post(isBodyExists, createTour);
+appRoute.route("/").get(getAllTours).post(createTour);
 appRoute.route("/:id").get(getTourById).patch(updateTour).delete(deleteTour);
 
 module.exports = appRoute;
