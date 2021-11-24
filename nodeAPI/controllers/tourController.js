@@ -31,7 +31,62 @@ const Tours = require("./../modals/tours");
 // Get all tours
 exports.getAllTours = async (req, res) => {
     try {
-        const tours = await Tours.find();
+        // Filter and retrieve filter fields from query string
+        const filterObj = { ...req.query };
+        const pageFields = ["page", "limit", "sort", "fields"];
+        pageFields.forEach((el) => delete filterObj[el]);
+
+        // Advance Filtering with operator
+        const queryStr = JSON.stringify(filterObj).replace(
+            /\b(gte|gt|lte|lt)\b/g,
+            (match) => `$${match}`
+        );
+
+        // Method 1
+        let query = Tours.find(JSON.parse(queryStr));
+
+        // console.log(req.query, req.query.sort, JSON.parse(queryStr));
+        // Sorting
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(",").join(" ");
+            query = query.sort(sortBy);
+        } else {
+            query = query.sort("createdAt name");
+        }
+
+        // Limiting fields that required to fetch - projecting
+        if (req.query.fields) {
+            const fields = req.query.fields.split(",").join(" ");
+            query = query.select(fields + " createdAt");
+        } else {
+            query = query.select("-__v");
+        }
+
+        // Pagination
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+        const skip = (page - 1) * limit;
+        query = query.skip(skip).limit(limit);
+        // console.log(query);
+
+        if (req.query.page) {
+            const numTours = await Tours.countDocuments();
+            if (skip >= numTours) throw new Error("This page doesn't exists!");
+        }
+
+        // Method 2
+        // const tours = await Tours.find()
+        //     .where("duration")
+        //     .equals(5)
+        //     .where("difficulty")
+        //     .equals("easy");
+
+        // Method 3
+        // const tours = await Tours.find({
+
+        // });
+
+        const tours = await query;
         res.status(200).json({
             status: "success",
             total_tours: tours.length,
@@ -43,6 +98,10 @@ exports.getAllTours = async (req, res) => {
             message: err,
         });
     }
+};
+
+const user = (name) => {
+    return "hello world";
 };
 
 // Get tour by id
