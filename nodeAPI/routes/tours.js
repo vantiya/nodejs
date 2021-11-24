@@ -7,6 +7,8 @@ const {
     updateTour,
     deleteTour,
     aliasTopCheapest,
+    getToursStat,
+    getMonthlyPlan,
     // isTourIdExists,
     // isBodyExists,
 } = require("../controllers/tourController");
@@ -22,6 +24,9 @@ const {
 
 // appRoute.param("id", isTourIdExists);
 appRoute.route("/top-5-cheapest").get(aliasTopCheapest, getAllTours);
+appRoute.route("/tour-stats").get(getToursStat);
+appRoute.route("/monthly-plan/:year").get(getMonthlyPlan);
+
 appRoute.route("/").get(getAllTours).post(createTour);
 appRoute.route("/:id").get(getTourById).patch(updateTour).delete(deleteTour);
 
