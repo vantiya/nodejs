@@ -6,6 +6,7 @@ const {
     getTourById,
     updateTour,
     deleteTour,
+    aliasTopCheapest,
     // isTourIdExists,
     // isBodyExists,
 } = require("../controllers/tourController");
@@ -20,7 +21,7 @@ const {
 // app.delete("/api/v1/tours/:id", deleteTour);
 
 // appRoute.param("id", isTourIdExists);
-
+appRoute.route("/top-5-cheapest").get(aliasTopCheapest, getAllTours);
 appRoute.route("/").get(getAllTours).post(createTour);
 appRoute.route("/:id").get(getTourById).patch(updateTour).delete(deleteTour);
 

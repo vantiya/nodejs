@@ -28,6 +28,12 @@ const Tours = require("./../modals/tours");
 //     next();
 // };
 
+exports.aliasTopCheapest = (req, res, next) => {
+    req.query.limit = "5";
+    req.query.sort = "-ratingaAverage,price";
+    req.query.fields = "name,price,ratingAverage,summary,difficulty";
+    next();
+};
 // Get all tours
 exports.getAllTours = async (req, res) => {
     try {
@@ -51,7 +57,7 @@ exports.getAllTours = async (req, res) => {
             const sortBy = req.query.sort.split(",").join(" ");
             query = query.sort(sortBy);
         } else {
-            query = query.sort("createdAt name");
+            query = query.sort("name -createdAt");
         }
 
         // Limiting fields that required to fetch - projecting
