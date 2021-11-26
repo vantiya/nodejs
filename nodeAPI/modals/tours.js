@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const validator = require("validator");
 const { Schema } = mongoose;
 
 // console.log(mongoose);
@@ -20,6 +21,10 @@ const tourSchema = new Schema(
                 10,
                 "A tour name must have more or equal then 10 characters",
             ],
+            // validate: [
+            //     validator.isAlpha,
+            //     "Tour name must contains characters only.",
+            // ], // This also cause an issue with spaces as well so not usefull here
         },
         slug: String,
         duration: {
