@@ -1,4 +1,6 @@
 const fs = require("fs");
+const User = require("./../modals/users");
+const catchAsync = require("./../utils/catchAsync");
 
 const users = JSON.parse(
     fs.readFileSync(`${__dirname}/../api-data/data/users.json`)
@@ -17,13 +19,15 @@ exports.isUserIdExists = (req, res, next, val) => {
     next();
 };
 // Get all users
-exports.getAllUsers = (req, res) => {
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+    const users = await User.find();
+
     res.status(200).json({
         status: "Success",
         total_users: users.length,
         users,
     });
-};
+});
 // create New User
 exports.createUser = (req, res) => {
     res.status(500).json({
