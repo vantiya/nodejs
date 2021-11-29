@@ -1,4 +1,3 @@
-const fs = require("fs");
 const ApiError = require("./../utils/apiError");
 const Tours = require("./../modals/tours");
 const APIhelpers = require("./../utils/apiHelper");
