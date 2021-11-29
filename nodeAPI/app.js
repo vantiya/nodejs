@@ -7,6 +7,11 @@ app.use(express.json());
 // API Error Class
 const ApiError = require("./utils/apiError");
 
+//
+app.use((req, res, next) => {
+    next();
+});
+
 // errors
 const errController = require("./controllers/errorController");
 

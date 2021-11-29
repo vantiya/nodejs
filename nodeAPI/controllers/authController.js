@@ -1,3 +1,4 @@
+const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const User = require("./../modals/users");
 const catchAsync = require("./../utils/catchAsync");
@@ -19,6 +20,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
+        passwordChangedAt: req.body.passwordChangedAt,
     });
 
     const token = signToken(newUser._id);
@@ -55,4 +57,41 @@ exports.login = catchAsync(async (req, res, next) => {
         token,
     });
     // const userLog = await user;
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+    // 1. Get the token and if exists
+    let token = "";
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer")
+    ) {
+        token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (token === "") {
+        return next(new ApiError("Unauthorized Access!", 401));
+    }
+    // 2. Validate token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
+    // 3. validate user
+    const fetchUser = await User.findById(decoded.id);
+    if (!fetchUser) {
+        return next(
+            new ApiError("The User belong to the token no longer exists", 401)
+        );
+    }
+    // 4. check if user has changed password after token generated
+    if (fetchUser.changePasswordAfter(decoded.iat)) {
+        return next(
+            new ApiError(
+                "You seems to have changed password. login again!",
+                401
+            )
+        );
+    }
+
+    // Grand access to protect route
+    req.user = fetchUser;
+    next();
 });

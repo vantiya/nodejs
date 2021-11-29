@@ -36,6 +36,7 @@ const userSchema = new Schema({
             message: "Provide same password for confirm Password!",
         },
     },
+    passwordChangedAt: Date,
 });
 
 userSchema.pre("save", async function (next) {
@@ -55,6 +56,20 @@ userSchema.methods.correctPassword = async function (
     userPassword
 ) {
     return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changePasswordAfter = function (JWTTimeStamp) {
+    if (this.passwordChangedAt) {
+        // if changed
+        const changedTimeStamp = parseInt(
+            this.passwordChangedAt.getTime() / 1000,
+            10
+        );
+
+        return JWTTimeStamp < changedTimeStamp; // like 100 < 200 then changed
+    }
+    // not changed
+    return false;
 };
 
 module.exports = User = mongoose.model("Users", userSchema);
