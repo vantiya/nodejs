@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const Tours = require("./../../modals/tours");
 
+// console.log(process.env);
+
 const DB = process.env.DATABASE.replace("PASSCODE", process.env.PASSWORD);
 mongoose.connect(DB).then(console.log("Connection Successfull!"));
 
 // READ JSON FILE
-const tours = JSON.parse(
-    fs.readFileSync(`${__dirname}/tours-simple.json`, "utf-8")
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, "utf-8"));
 
 // IMPORT DATA INTO DB
 const importData = async () => {
