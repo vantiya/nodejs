@@ -9,8 +9,6 @@ const {
     aliasTopCheapest,
     getToursStat,
     getMonthlyPlan,
-    // isTourIdExists,
-    // isBodyExists,
 } = require("../controllers/tourController");
 const authController = require("./../controllers/authController");
 
@@ -29,6 +27,14 @@ appRoute.route("/tour-stats").get(getToursStat);
 appRoute.route("/monthly-plan/:year").get(getMonthlyPlan);
 
 appRoute.route("/").get(authController.protect, getAllTours).post(createTour);
-appRoute.route("/:id").get(getTourById).patch(updateTour).delete(deleteTour);
+appRoute
+    .route("/:id")
+    .get(getTourById)
+    .patch(updateTour)
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin", "lead-guide"),
+        deleteTour
+    );
 
 module.exports = appRoute;
