@@ -1,8 +1,35 @@
 const express = require("express");
 const app = express();
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const expressMongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const hpp = require("hpp");
 
-// json middleware to fetch req.body while creating new tour
-app.use(express.json());
+// Set Security HTTP Headers
+app.use(helmet());
+
+// json middleware to fetch req.body while creating new tour & limit JSON size in request body
+app.use(express.json({ limit: "10kb" }));
+
+// Data Sanitization against NoSQL query injection
+app.use(expressMongoSanitize());
+
+// Data Sanitization against XSS
+app.use(xss());
+
+// HTTP Paramerter Polution
+app.use(
+    hpp({
+        whitelist: [
+            "duration",
+            "ratingsQuantity",
+            "ratingsAverate",
+            "difficulty",
+            "price",
+        ],
+    })
+);
 
 // API Error Class
 const ApiError = require("./utils/apiError");
@@ -11,6 +38,14 @@ const ApiError = require("./utils/apiError");
 app.use((req, res, next) => {
     next();
 });
+
+// Set Request limit per IP
+const limiter = rateLimit({
+    max: 10,
+    windowMs: 60 * 60 * 1000,
+    message: "Too many request from this IP. Please try it again.",
+});
+app.use("/api", limiter);
 
 // errors
 const errController = require("./controllers/errorController");
@@ -21,6 +56,7 @@ app.use("/api/v1/tours", tourRoutes);
 
 // Users Routes
 const userRoutes = require("./routes/users");
+const ExpressMongoSanitize = require("express-mongo-sanitize");
 app.use("/api/v1/users", userRoutes);
 
 // This wildcard used for some URL/Route that couldn't found - 404
