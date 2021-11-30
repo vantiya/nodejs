@@ -14,6 +14,17 @@ const signToken = (id) => {
     });
 };
 
+const createSendToken = (user, statusCode, res) => {
+    const token = signToken(user._id);
+    res.status(statusCode).json({
+        status: "Success",
+        token,
+        data: {
+            user,
+        },
+    });
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
     // const newUser = await User.create(req.body);
     // More secure way to restrict what fields shold be added to DB
@@ -26,14 +37,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         passwordChangedAt: req.body.passwordChangedAt,
     });
 
-    const token = signToken(newUser._id);
-    res.status(201).json({
-        status: "Success",
-        token,
-        data: {
-            user: newUser,
-        },
-    });
+    createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -54,11 +58,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     // If user and credentials are correct success
-    const token = signToken(user._id);
-    res.status(200).json({
-        status: "Success",
-        token,
-    });
+    createSendToken(user, 200, res);
     // const userLog = await user;
 });
 
@@ -154,6 +154,7 @@ exports.forgotPassword = async (req, res, next) => {
         );
     }
 };
+
 exports.resetPassword = catchAsync(async (req, res, next) => {
     // Get user token
     const hashedToken = crypto
@@ -178,9 +179,27 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
     // update changePasswordAt
     // log user in, send JWT
-    const token = signToken(user._id);
-    res.status(200).json({
-        status: "Success",
-        token,
-    });
+    createSendToken(user, 200, res);
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+    // get user from collection
+    const user = await User.findById(req.user.id).select("+password");
+
+    // Current password is correct
+    if (
+        !user ||
+        !(await user.correctPassword(req.body.currentPassword, user.password))
+    ) {
+        return next(new ApiError("Wrong Current Password.", 401));
+    }
+
+    // Update password
+    user.password = req.body.password;
+    user.confirmPassword = req.body.confirmPassword;
+
+    await user.save();
+
+    // log in user - send new token
+    createSendToken(user, 200, res);
 });
