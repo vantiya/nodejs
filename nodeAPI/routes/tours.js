@@ -28,13 +28,30 @@ appRoute.use("/:tourId/reviews", reviewRouter);
 
 appRoute.route("/top-5-cheapest").get(aliasTopCheapest, getAllTours);
 appRoute.route("/tour-stats").get(getToursStat);
-appRoute.route("/monthly-plan/:year").get(getMonthlyPlan);
+appRoute
+    .route("/monthly-plan/:year")
+    .get(
+        getMonthlyPlan,
+        authController.protect,
+        authController.restrictTo("admin", "lead-guide", "guide")
+    );
 
-appRoute.route("/").get(authController.protect, getAllTours).post(createTour);
+appRoute
+    .route("/")
+    .get(getAllTours)
+    .post(
+        authController.protect,
+        authController.restrictTo("admin", "lead-guide"),
+        createTour
+    );
 appRoute
     .route("/:id")
     .get(getTourById)
-    .patch(updateTour)
+    .patch(
+        authController.protect,
+        authController.restrictTo("admin", "lead-guide"),
+        updateTour
+    )
     .delete(
         authController.protect,
         authController.restrictTo("admin", "lead-guide"),
