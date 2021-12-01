@@ -11,6 +11,7 @@ const {
     getMonthlyPlan,
 } = require("../controllers/tourController");
 const authController = require("./../controllers/authController");
+const reviewController = require("./../controllers/reviewController");
 
 // const tourController = require("../controllers/tourController");
 // console.log(tourController);
@@ -35,6 +36,14 @@ appRoute
         authController.protect,
         authController.restrictTo("admin", "lead-guide"),
         deleteTour
+    );
+
+appRoute
+    .route("/:tourId/reviews")
+    .post(
+        authController.protect,
+        authController.restrictTo("user"),
+        reviewController.createReview
     );
 
 module.exports = appRoute;
