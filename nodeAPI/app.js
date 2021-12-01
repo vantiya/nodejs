@@ -59,6 +59,10 @@ const userRoutes = require("./routes/users");
 const ExpressMongoSanitize = require("express-mongo-sanitize");
 app.use("/api/v1/users", userRoutes);
 
+// Review Routes
+const reviewRoutes = require("./routes/reviews");
+app.use("/api/v1/reviews", reviewRoutes);
+
 // This wildcard used for some URL/Route that couldn't found - 404
 app.get("*", (req, res, next) => {
     next(new ApiError(`Can't find ${req.originalUrl} on this website!`, 400));

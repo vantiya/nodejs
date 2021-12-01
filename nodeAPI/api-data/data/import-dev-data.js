@@ -1,8 +1,9 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
-require("dotenv").config();
 const Tours = require("./../../modals/tours");
 
+// Here required to specify path to ENV file
+require("dotenv").config({ path: __dirname + "/./../../.env" });
 // console.log(process.env);
 
 const DB = process.env.DATABASE.replace("PASSCODE", process.env.PASSWORD);
