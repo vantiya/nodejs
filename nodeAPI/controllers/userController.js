@@ -2,6 +2,7 @@ const fs = require("fs");
 const User = require("./../modals/users");
 const catchAsync = require("./../utils/catchAsync");
 const ApiError = require("./../utils/apiError");
+const factory = require("./../controllers/handlerFactory");
 
 const users = JSON.parse(
     fs.readFileSync(`${__dirname}/../api-data/data/users.json`)
@@ -30,12 +31,13 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     });
 });
 // create New User
-exports.createUser = (req, res) => {
-    res.status(500).json({
-        status: "Internal Server Error",
-        message: "Route not Exists",
-    });
-};
+exports.createUser = factory.creatOne(User);
+// Fetch user by Id
+exports.getUserByID = factory.getOne(User);
+// Update User
+exports.updateUser = factory.updateOne(User);
+// Delete User
+exports.deleteUser = factory.deleteOne(User);
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -81,28 +83,3 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
         message: "User deleted successfully!",
     });
 });
-// Fetch user by Id
-exports.getUserByID = (req, res) => {
-    const userID = req.params.id;
-    const user = users.find((el) => el._id === userID);
-    res.status(200).json({
-        status: "Success",
-        user,
-    });
-};
-// User User
-exports.updateUser = (req, res) => {
-    const userID = req.params.id;
-    const user = users.find((el) => el._id === userID);
-    res.status(200).json({
-        message: "User Updated Successfully",
-    });
-};
-// Delete User
-exports.deleteUser = (req, res) => {
-    const userID = req.params.id;
-    const user = users.find((el) => el._id === userID);
-    res.status(200).json({
-        message: "User Deleted Successfully",
-    });
-};

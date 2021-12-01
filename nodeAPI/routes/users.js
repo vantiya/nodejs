@@ -9,10 +9,10 @@ const {
     isUserIdExists,
     updateMyData,
     deleteMe,
-} = require("../controllers/userController");
+} = require("./../controllers/userController");
 const authController = require("./../controllers/authController");
 
-appRoute.param("id", isUserIdExists);
+// appRoute.param("id", isUserIdExists);
 
 appRoute.post("/signup", authController.signup);
 appRoute.post("/login", authController.login);

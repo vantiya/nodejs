@@ -11,7 +11,7 @@ const {
     getMonthlyPlan,
 } = require("../controllers/tourController");
 const authController = require("./../controllers/authController");
-const reviewController = require("./../controllers/reviewController");
+const reviewRouter = require("./../routes/reviews");
 
 // const tourController = require("../controllers/tourController");
 // console.log(tourController);
@@ -23,6 +23,9 @@ const reviewController = require("./../controllers/reviewController");
 // app.delete("/api/v1/tours/:id", deleteTour);
 
 // appRoute.param("id", isTourIdExists);
+
+appRoute.use("/:tourId/reviews", reviewRouter);
+
 appRoute.route("/top-5-cheapest").get(aliasTopCheapest, getAllTours);
 appRoute.route("/tour-stats").get(getToursStat);
 appRoute.route("/monthly-plan/:year").get(getMonthlyPlan);
@@ -36,14 +39,6 @@ appRoute
         authController.protect,
         authController.restrictTo("admin", "lead-guide"),
         deleteTour
-    );
-
-appRoute
-    .route("/:tourId/reviews")
-    .post(
-        authController.protect,
-        authController.restrictTo("user"),
-        reviewController.createReview
     );
 
 module.exports = appRoute;
