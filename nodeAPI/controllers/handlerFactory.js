@@ -77,6 +77,7 @@ exports.getAll = (Modal) =>
             .sort()
             .getFields()
             .paginate();
+        // const doc = await getQuery.query.explain();
         const doc = await getQuery.query;
 
         res.status(200).json({
