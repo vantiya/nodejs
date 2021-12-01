@@ -21,15 +21,7 @@ exports.isUserIdExists = (req, res, next, val) => {
     next();
 };
 // Get all users
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.find();
-
-    res.status(200).json({
-        status: "Success",
-        total_users: users.length,
-        users,
-    });
-});
+exports.getAllUsers = factory.getAll(User);
 // create New User
 exports.createUser = factory.creatOne(User);
 // Fetch user by Id

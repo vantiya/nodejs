@@ -4,20 +4,6 @@ const APIhelpers = require("./../utils/apiHelper");
 const catchAsync = require("./../utils/catchAsync");
 const factory = require("./../controllers/handlerFactory");
 
-// exports.getAllReviews = catchAsync(async (req, res, next) => {
-//     let filter = {};
-//     if (req.params.tourId) filter = { tour: req.params.tourId };
-//     const reviews = await Review.find(filter);
-
-//     res.status(200).json({
-//         status: "Success",
-//         results: reviews.length,
-//         data: {
-//             reviews,
-//         },
-//     });
-// });
-
 // Middleware to set parameters for Create Review with logged user and current tour
 exports.setTourUserIds = (req, res, next) => {
     // Allowed nested route
