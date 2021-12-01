@@ -20,16 +20,6 @@ exports.isUserIdExists = (req, res, next, val) => {
     }
     next();
 };
-// Get all users
-exports.getAllUsers = factory.getAll(User);
-// create New User
-exports.createUser = factory.creatOne(User);
-// Fetch user by Id
-exports.getUserByID = factory.getOne(User);
-// Update User
-exports.updateUser = factory.updateOne(User);
-// Delete User
-exports.deleteUser = factory.deleteOne(User);
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -38,6 +28,12 @@ const filterObj = (obj, ...allowedFields) => {
     });
     return newObj;
 };
+
+exports.getMe = (req, res, next) => {
+    req.params.id = req.user.id;
+    next();
+};
+
 exports.updateMyData = catchAsync(async (req, res, next) => {
     // create error if POST is for update password
     if (req.body.password || req.body.confirmPassword) {
@@ -75,3 +71,14 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
         message: "User deleted successfully!",
     });
 });
+
+// Get all users
+exports.getAllUsers = factory.getAll(User);
+// create New User
+exports.createUser = factory.creatOne(User);
+// Fetch user by Id
+exports.getUserByID = factory.getOne(User);
+// Update User
+exports.updateUser = factory.updateOne(User);
+// Delete User
+exports.deleteUser = factory.deleteOne(User);

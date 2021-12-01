@@ -9,6 +9,8 @@ const {
     isUserIdExists,
     updateMyData,
     deleteMe,
+    getMe,
+    getUser,
 } = require("./../controllers/userController");
 const authController = require("./../controllers/authController");
 
@@ -25,7 +27,7 @@ appRoute.patch(
     authController.protect,
     authController.updatePassword
 );
-
+appRoute.get("/me", authController.protect, getMe, getUserByID);
 appRoute.patch("/updateMyData/", authController.protect, updateMyData);
 appRoute.delete("/deleteMe/", authController.protect, deleteMe);
 
