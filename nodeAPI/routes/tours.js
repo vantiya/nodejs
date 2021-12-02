@@ -10,6 +10,7 @@ const {
     getToursStat,
     getMonthlyPlan,
     getToursWithin,
+    getDistances,
 } = require("../controllers/tourController");
 const authController = require("./../controllers/authController");
 const reviewRouter = require("./../routes/reviews");
@@ -40,6 +41,8 @@ appRoute
 appRoute
     .route("/tours-within/:distance/center/:latlng/unit/:unit")
     .get(getToursWithin);
+
+appRoute.route("/distances/:latlng/unit/:unit").get(getDistances);
 
 appRoute
     .route("/")
