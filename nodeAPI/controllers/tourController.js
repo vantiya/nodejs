@@ -105,3 +105,32 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
         },
     });
 });
+
+// tours-within?distance=10&center=-40,45&unit=km
+// tours-within/10/center/34.0932147,-118.1165165/unit/km
+exports.getToursWithin = catchAsync(async (req, res, next) => {
+    const { distance, latlng, unit } = req.params;
+    const [lat, lng] = latlng.split(",");
+
+    const radius = unit === "mi" ? distance / 3963.2 : distance / 6378.1;
+    if (!lat || !lng) {
+        next(
+            new ApiError(
+                "Please provide Latitude and Longitude in the format lat,lng.",
+                400
+            )
+        );
+    }
+
+    const tours = await Tours.find({
+        startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+    });
+
+    res.status(200).json({
+        status: "Success",
+        results: tours.length,
+        data: {
+            data: tours,
+        },
+    });
+});

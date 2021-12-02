@@ -9,6 +9,7 @@ const {
     aliasTopCheapest,
     getToursStat,
     getMonthlyPlan,
+    getToursWithin,
 } = require("../controllers/tourController");
 const authController = require("./../controllers/authController");
 const reviewRouter = require("./../routes/reviews");
@@ -35,6 +36,10 @@ appRoute
         authController.protect,
         authController.restrictTo("admin", "lead-guide", "guide")
     );
+
+appRoute
+    .route("/tours-within/:distance/center/:latlng/unit/:unit")
+    .get(getToursWithin);
 
 appRoute
     .route("/")
