@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const app = express();
 const rateLimit = require("express-rate-limit");
@@ -5,12 +6,22 @@ const helmet = require("helmet");
 const expressMongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
+const cookieParser = require("cookie-parser");
+
+// API Error Class
+const ApiError = require("./utils/apiError");
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Set Security HTTP Headers
 app.use(helmet());
 
 // json middleware to fetch req.body while creating new tour & limit JSON size in request body
 app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(cookieParser());
 
 // Data Sanitization against NoSQL query injection
 app.use(expressMongoSanitize());
@@ -31,11 +42,11 @@ app.use(
     })
 );
 
-// API Error Class
-const ApiError = require("./utils/apiError");
-
 //
+// Test middleware
 app.use((req, res, next) => {
+    // req.requestTime = new Date().toISOString();
+    // console.log(req.cookies);
     next();
 });
 
@@ -49,6 +60,10 @@ app.use("/api", limiter);
 
 // errors
 const errController = require("./controllers/errorController");
+
+// View Routes
+const viewRouter = require("./routes/viewRoutes");
+app.use("/", viewRouter);
 
 // tours routes
 const tourRoutes = require("./routes/tours");
