@@ -8816,7 +8816,7 @@ exports.showAlert = exports.hideAlert = void 0;
 
 /* eslint-disable */
 var hideAlert = function hideAlert() {
-  var el = document.querySelector('.alert');
+  var el = document.querySelector(".alert");
   if (el) el.parentElement.removeChild(el);
 }; // type is 'success' or 'error'
 
@@ -8826,7 +8826,7 @@ exports.hideAlert = hideAlert;
 var showAlert = function showAlert(type, msg) {
   hideAlert();
   var markup = "<div class=\"alert alert--".concat(type, "\">").concat(msg, "</div>");
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
+  document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
   window.setTimeout(hideAlert, 5000);
 };
 
@@ -8859,8 +8859,8 @@ var login = /*#__PURE__*/function () {
             _context.prev = 0;
             _context.next = 3;
             return (0, _axios.default)({
-              method: 'POST',
-              url: 'http://127.0.0.1:3000/api/v1/users/login',
+              method: "POST",
+              url: "http://127.0.0.1:3000/api/v1/users/login",
               data: {
                 email: email,
                 password: password
@@ -8870,10 +8870,10 @@ var login = /*#__PURE__*/function () {
           case 3:
             res = _context.sent;
 
-            if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', 'Logged in successfully!');
+            if (res.data.status === "success") {
+              (0, _alerts.showAlert)("success", "Logged in successfully!");
               window.setTimeout(function () {
-                location.assign('/');
+                location.assign("/");
               }, 1500);
             }
 
@@ -8883,7 +8883,7 @@ var login = /*#__PURE__*/function () {
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            (0, _alerts.showAlert)("error", _context.t0.response.data.message);
 
           case 10:
           case "end":
@@ -8910,13 +8910,13 @@ var logout = /*#__PURE__*/function () {
             _context2.prev = 0;
             _context2.next = 3;
             return (0, _axios.default)({
-              method: 'GET',
-              url: 'http://127.0.0.1:3000/api/v1/users/logout'
+              method: "GET",
+              url: "http://127.0.0.1:3000/api/v1/users/logout"
             });
 
           case 3:
             res = _context2.sent;
-            if (res.data.status = 'success') location.reload(true);
+            if (res.data.status = "success") location.reload(true);
             _context2.next = 11;
             break;
 
@@ -8924,7 +8924,7 @@ var logout = /*#__PURE__*/function () {
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0.response);
-            (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
+            (0, _alerts.showAlert)("error", "Error logging out! Try again.");
 
           case 11:
           case "end":
@@ -9282,34 +9282,35 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 // DOM ELEMENTS
-var mapBox = document.getElementById('map');
-var loginForm = document.querySelector('.form--login');
-var logOutBtn = document.querySelector('.nav__el--logout');
-var userDataForm = document.querySelector('.form-user-data');
-var userPasswordForm = document.querySelector('.form-user-password'); // DELEGATION
+var mapBox = document.getElementById("map");
+var loginForm = document.querySelector(".form--login");
+var logOutBtn = document.querySelector(".nav__el--logout");
+var userDataForm = document.querySelector(".form-user-data");
+var userPasswordForm = document.querySelector(".form-user-password"); // DELEGATION
 
 if (mapBox) {
   var locations = JSON.parse(mapBox.dataset.locations);
   (0, _mapbox.displayMap)(locations);
 }
 
-if (loginForm) loginForm.addEventListener('submit', function (e) {
+if (loginForm) loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
-  var email = document.getElementById('email').value;
-  var password = document.getElementById('password').value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value; // console.log(email, password);
+
   (0, _login.login)(email, password);
 });
-if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
-if (userDataForm) userDataForm.addEventListener('submit', function (e) {
+if (logOutBtn) logOutBtn.addEventListener("click", _login.logout);
+if (userDataForm) userDataForm.addEventListener("submit", function (e) {
   e.preventDefault();
-  var name = document.getElementById('name').value;
-  var email = document.getElementById('email').value;
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
   (0, _updateSettings.updateSettings)({
     name: name,
     email: email
-  }, 'data');
+  }, "data");
 });
-if (userPasswordForm) userPasswordForm.addEventListener('submit', /*#__PURE__*/function () {
+if (userPasswordForm) userPasswordForm.addEventListener("submit", /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
     var passwordCurrent, password, passwordConfirm;
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -9317,22 +9318,22 @@ if (userPasswordForm) userPasswordForm.addEventListener('submit', /*#__PURE__*/f
         switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
-            document.querySelector('.btn--save-password').textContent = 'Updating...';
-            passwordCurrent = document.getElementById('password-current').value;
-            password = document.getElementById('password').value;
-            passwordConfirm = document.getElementById('password-confirm').value;
+            document.querySelector(".btn--save-password").textContent = "Updating...";
+            passwordCurrent = document.getElementById("password-current").value;
+            password = document.getElementById("password").value;
+            passwordConfirm = document.getElementById("password-confirm").value;
             _context.next = 7;
             return (0, _updateSettings.updateSettings)({
               passwordCurrent: passwordCurrent,
               password: password,
               passwordConfirm: passwordConfirm
-            }, 'password');
+            }, "password");
 
           case 7:
-            document.querySelector('.btn--save-password').textContent = 'Save password';
-            document.getElementById('password-current').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('password-confirm').value = '';
+            document.querySelector(".btn--save-password").textContent = "Save password";
+            document.getElementById("password-current").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("password-confirm").value = "";
 
           case 11:
           case "end":
@@ -9374,7 +9375,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33975" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33973" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -30,7 +30,7 @@ const createSendToken = (user, statusCode, res) => {
     user.password = undefined;
 
     res.status(statusCode).json({
-        status: "Success",
+        status: "success",
         token,
         data: {
             user,
@@ -119,6 +119,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // Grand access to protect route
     req.user = fetchUser;
+    res.locals.user = fetchUser;
     next();
 });
 

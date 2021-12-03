@@ -17,6 +17,7 @@ const authController = require("./../controllers/authController");
 
 appRoute.post("/signup", authController.signup);
 appRoute.post("/login", authController.login);
+appRoute.get("/logout", authController.logout);
 appRoute.post("/forgotPassword", authController.forgotPassword);
 appRoute.patch("/resetPassword/:token", authController.resetPassword);
 

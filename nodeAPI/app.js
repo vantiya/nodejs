@@ -16,7 +16,17 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set Security HTTP Headers
-app.use(helmet());
+// app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            "default-src": ["'self'", "data:", "blob:"],
+            "font-src": ["'self'", "https:", "data:", "unsafe-inline"],
+            "script-src": ["'self'", "unsafe-inline"],
+            "style-src": ["'self'", "https:", "unsafe-inline"],
+        },
+    })
+);
 
 // json middleware to fetch req.body while creating new tour & limit JSON size in request body
 app.use(express.json({ limit: "10kb" }));
