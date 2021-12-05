@@ -14,33 +14,33 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
 
     // // Insert ONe
     
-    // db.collection('users').insertOne({
-    //     name: 'Andrew',
-    //     age: 27
-    // }, (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user')
-    //     }
+    db.collection('users').insertOne({
+        name: 'Parvez',
+        age: 27
+    }, (error, result) => {
+        if (error) {
+            return console.log('Unable to insert user')
+        }
 
-    //     console.log(result.ops)
-    // })
+        console.log(result.ops)
+    })
 
     // // Insert Many
-    // db.collection('users').insertMany([
-    //     {
-    //         name: 'Jen',
-    //         age: 28
-    //     }, {
-    //         name: 'Gunther',
-    //         age: 27
-    //     }
-    // ], (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert documents!')
-    //     }
+    db.collection('users').insertMany([
+        {
+            name: 'Kay',
+            age: 18
+        }, {
+            name: 'Jason',
+            age: 27
+        }
+    ], (error, result) => {
+        if (error) {
+            return console.log('Unable to insert documents!')
+        }
 
-    //     console.log(result.ops)
-    // })
+        console.log(result.ops)
+    })
 
     // // Insert Many
     db.collection('tasks').insertMany([
@@ -123,11 +123,11 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
     // })
 
     // // Delete One
-    db.collection('tasks').deleteOne({
-        description: "Clean the house"
-    }).then((result) => {
-        console.log(result)
-    }).catch((error) => {
-        console.log(error)
-    })
+    // db.collection('tasks').deleteOne({
+    //     description: "Clean the house"
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
 })
