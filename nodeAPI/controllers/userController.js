@@ -1,4 +1,5 @@
 const fs = require("fs");
+const multer = require("multer");
 const User = require("./../modals/users");
 const catchAsync = require("./../utils/catchAsync");
 const ApiError = require("./../utils/apiError");
@@ -34,7 +35,39 @@ exports.getMe = (req, res, next) => {
     next();
 };
 
+const multerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        console.log(file.originalname);
+        cb(null, "public/img/users");
+    },
+    filename: (req, file, cb) => {
+        // console.log(file);
+        const ext = file.mimetype.split("/")[1];
+        cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+    },
+});
+
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true);
+    } else {
+        cb(
+            new ApiError("Not an image! Please upload only images.", 400),
+            false
+        );
+    }
+};
+
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter,
+});
+
+exports.uploadUserPhoto = upload.single("photo");
+
 exports.updateMyData = catchAsync(async (req, res, next) => {
+    // console.log(req.file);
+    // console.log(req);
     // create error if POST is for update password
     if (req.body.password || req.body.confirmPassword) {
         return next(

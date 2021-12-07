@@ -24,7 +24,7 @@ const handleJWTError = (err) => new ApiError("Invalid Token", 401);
 const handleJWTExpiredError = (err) =>
     new ApiError("Token Expired. Login again!", 401);
 
-const sendErrorDev = (err, res, req) => {
+const sendErrorDev = (err, req, res) => {
     // A) API
     if (req.originalUrl.startsWith("/api")) {
         return res.status(err.statusCode).json({

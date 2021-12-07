@@ -29,8 +29,8 @@ app.use(
 );
 
 // json middleware to fetch req.body while creating new tour & limit JSON size in request body
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.json({ limit: "5000kb" }));
+app.use(express.urlencoded({ extended: false, limit: "5000kb" }));
 app.use(cookieParser());
 
 // Data Sanitization against NoSQL query injection

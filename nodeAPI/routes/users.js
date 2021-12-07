@@ -7,6 +7,7 @@ const {
     updateUser,
     deleteUser,
     isUserIdExists,
+    uploadUserPhoto,
     updateMyData,
     deleteMe,
     getMe,
@@ -26,7 +27,7 @@ appRoute.use(authController.protect);
 
 appRoute.patch("/updateMyPassword/", authController.updatePassword);
 appRoute.get("/me", getMe, getUserByID);
-appRoute.patch("/updateMyData/", updateMyData);
+appRoute.patch("/updateMyData/", uploadUserPhoto, updateMyData);
 appRoute.delete("/deleteMe/", deleteMe);
 
 appRoute.use(authController.restrictTo("admin"));
