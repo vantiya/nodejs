@@ -35,20 +35,23 @@ exports.getMe = (req, res, next) => {
     next();
 };
 
-const multerStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        console.log(file.originalname);
-        cb(null, "public/img/users");
-    },
-    filename: (req, file, cb) => {
-        // console.log(file);
-        const ext = file.mimetype.split("/")[1];
-        cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-    },
-});
+// const multerStorage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         console.log("Destination: " + file.originalname);
+//         cb(null, "public/img/users");
+//     },
+//     filename: (req, file, cb) => {
+//         console.log("Filename: " + file.originalname);
+//         const ext = file.mimetype.split("/")[1];
+//         cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//     },
+// });
+
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
     if (file.mimetype.startsWith("image")) {
+        console.log("Image");
         cb(null, true);
     } else {
         cb(
@@ -66,7 +69,7 @@ const upload = multer({
 exports.uploadUserPhoto = upload.single("photo");
 
 exports.updateMyData = catchAsync(async (req, res, next) => {
-    // console.log(req.file);
+    console.log(req.file);
     // console.log(req);
     // create error if POST is for update password
     if (req.body.password || req.body.confirmPassword) {

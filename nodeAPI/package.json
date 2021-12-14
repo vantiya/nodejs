@@ -1,47 +1,47 @@
 {
-  "name": "nodeapi-project",
-  "version": "1.0.0",
-  "description": "This small project is created to learn how to connect with API using Express, MongoDB, Mangoose. I have used natours API for testing and learning purpose.",
-  "main": "app.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js",
-    "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/vantiya/nodejs.git"
-  },
-  "keywords": [
-    "Node",
-    "Express",
-    "Routes",
-    "MongoDB",
-    "Monagoose",
-    "API",
-    "JS"
-  ],
-  "author": "Parvez Vantiya",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vantiya/nodejs/issues"
-  },
-  "homepage": "https://github.com/vantiya/nodejs#readme",
-  "dependencies": {
-    "@babel/polyfill": "^7.12.1",
-    "axios": "^0.24.0",
-    "bcryptjs": "^2.4.3",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.13",
-    "multer": "^1.4.3",
-    "slugify": "^1.6.3",
-    "validator": "^13.7.0"
-  },
-  "devDependencies": {
-    "parcel-bundler": "^1.12.5"
-  }
+    "name": "nodeapi-project",
+    "version": "1.0.0",
+    "description": "This small project is created to learn how to connect with API using Express, MongoDB, Mangoose. I have used natours API for testing and learning purpose.",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon server.js",
+        "start:prod": "NODE_ENV=production nodemon server.js",
+        "debug": "ndb server.js",
+        "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --public-url /js --out-file bundle.js",
+        "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --public-url /js --out-file bundle.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/vantiya/nodejs.git"
+    },
+    "keywords": [
+        "Node",
+        "Express",
+        "Routes",
+        "MongoDB",
+        "Monagoose",
+        "API",
+        "JS"
+    ],
+    "author": "Parvez Vantiya",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vantiya/nodejs/issues"
+    },
+    "homepage": "https://github.com/vantiya/nodejs#readme",
+    "dependencies": {
+        "@babel/polyfill": "^7.12.1",
+        "axios": "^0.24.0",
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.0.13",
+        "multer": "^1.4.3",
+        "slugify": "^1.6.3",
+        "validator": "^13.7.0"
+    },
+    "devDependencies": {
+        "parcel-bundler": "^1.12.5"
+    }
 }
