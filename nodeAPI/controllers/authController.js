@@ -5,7 +5,7 @@ const User = require("./../modals/users");
 const catchAsync = require("./../utils/catchAsync");
 const ApiError = require("./../utils/apiError");
 const bcrypt = require("bcryptjs");
-const sendMail = require("./../utils/email");
+const Email = require("./../utils/email");
 require("dotenv").config();
 
 const signToken = (id) => {
@@ -49,6 +49,10 @@ exports.signup = catchAsync(async (req, res, next) => {
         confirmPassword: req.body.confirmPassword,
         passwordChangedAt: req.body.passwordChangedAt,
     });
+
+    const url = `${req.protocol}://${req.get("host")}/me`;
+    console.log(url);
+    await new Email(newUser, url).sendWelcome();
 
     createSendToken(newUser, 201, res);
 });
@@ -170,7 +174,7 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = async (req, res, next) => {
     // Get user by email
     const user = await User.findOne({ email: req.body.email });
-    console.log(user);
+
     // If user not found send error
     if (!user) {
         return next(
@@ -183,17 +187,13 @@ exports.forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // Send email
-    const resetURL = `${req.protocol}://${req.get(
-        "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
-
-    const message = `Forgot your password? Submit a patch request with a new password and passwordConfirm to: ${resetURL}. \nIf you didn't forget your password just ignore this email.`;
     try {
-        await sendMail({
-            email: user.email,
-            subject: "Your password reset token (Valid for 10 minutes only",
-            message,
-        });
+        const resetURL = `${req.protocol}://${req.get(
+            "host"
+        )}/api/v1/users/resetPassword/${resetToken}`;
+
+        await new Email(user, resetURL).sendPasswordReset();
+
         res.status(200).json({
             status: "Success",
             message: "Token sent to email Address!",
