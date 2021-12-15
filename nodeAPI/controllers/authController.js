@@ -108,7 +108,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         );
     }
     // 4. check if user has changed password after token generated
-    if (fetchUser.changePasswordAfter(decoded.iat)) {
+    if (fetchUser.changedPasswordAfter(decoded.iat)) {
         return next(
             new ApiError(
                 "You seems to have changed password. login again!",
@@ -239,18 +239,18 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 exports.updatePassword = catchAsync(async (req, res, next) => {
     // get user from collection
     const user = await User.findById(req.user.id).select("+password");
-
+    console.log(user);
     // Current password is correct
     if (
         !user ||
-        !(await user.correctPassword(req.body.currentPassword, user.password))
+        !(await user.correctPassword(req.body.passwordCurrent, user.password))
     ) {
         return next(new ApiError("Wrong Current Password.", 401));
     }
 
     // Update password
     user.password = req.body.password;
-    user.confirmPassword = req.body.confirmPassword;
+    user.confirmPassword = req.body.passwordConfirm;
 
     await user.save();
 

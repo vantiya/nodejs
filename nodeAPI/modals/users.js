@@ -19,7 +19,10 @@ const userSchema = new Schema({
         validate: [validator.isEmail],
         trim: true,
     },
-    photo: String,
+    photo: {
+        type: String,
+        default: "default.jpg",
+    },
     role: {
         type: String,
         enum: ["user", "guide", "lead-guide", "admin"],
@@ -82,7 +85,7 @@ userSchema.methods.correctPassword = async function (
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changePasswordAfter = function (JWTTimeStamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
     if (this.passwordChangedAt) {
         // if changed
         const changedTimeStamp = parseInt(

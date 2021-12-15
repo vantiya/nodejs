@@ -6,8 +6,8 @@ const {
     getUserByID,
     updateUser,
     deleteUser,
-    isUserIdExists,
     uploadUserPhoto,
+    resizeUserPhoto,
     updateMyData,
     deleteMe,
     getMe,
@@ -25,10 +25,10 @@ appRoute.patch("/resetPassword/:token", authController.resetPassword);
 // Middleware works for all ops after this line
 appRoute.use(authController.protect);
 
-appRoute.patch("/updateMyPassword/", authController.updatePassword);
+appRoute.patch("/updateMyPassword", authController.updatePassword);
 appRoute.get("/me", getMe, getUserByID);
-appRoute.patch("/updateMyData/", uploadUserPhoto, updateMyData);
-appRoute.delete("/deleteMe/", deleteMe);
+appRoute.patch("/updateMyData", uploadUserPhoto, resizeUserPhoto, updateMyData);
+appRoute.delete("/deleteMe", deleteMe);
 
 appRoute.use(authController.restrictTo("admin"));
 
