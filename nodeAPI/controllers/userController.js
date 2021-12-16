@@ -109,7 +109,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 // Get all users
 exports.getAllUsers = factory.getAll(User);
 // create New User
-exports.createUser = factory.creatOne(User);
+exports.createUser = factory.createOne(User);
 // Fetch user by Id
 exports.getUserByID = factory.getOne(User);
 // Update User

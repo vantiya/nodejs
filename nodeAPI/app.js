@@ -7,6 +7,8 @@ const expressMongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const bookingController = require("./controllers/bookingController");
 
 // API Error Class
 const ApiError = require("./utils/apiError");
@@ -100,7 +102,7 @@ app.use(
         whitelist: [
             "duration",
             "ratingsQuantity",
-            "ratingsAverate",
+            "ratingsAverage",
             "difficulty",
             "price",
         ],
@@ -142,6 +144,10 @@ app.use("/api/v1/users", userRoutes);
 // Review Routes
 const reviewRoutes = require("./routes/reviews");
 app.use("/api/v1/reviews", reviewRoutes);
+
+// Booking Router
+const bookingRouter = require("./routes/bookingRoutes");
+app.use("/api/v1/bookings", bookingRouter);
 
 // This wildcard used for some URL/Route that couldn't found - 404
 app.get("*", (req, res, next) => {

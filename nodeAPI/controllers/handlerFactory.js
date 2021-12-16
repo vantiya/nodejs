@@ -37,9 +37,10 @@ exports.updateOne = (Modal) =>
         });
     });
 
-exports.creatOne = (Modal) =>
+exports.createOne = (Modal) =>
     catchAsync(async (req, res, next) => {
         const newDoc = await Modal.create(req.body);
+        // console.log(newDoc);
         res.status(201).json({
             status: "success",
             data: newDoc,

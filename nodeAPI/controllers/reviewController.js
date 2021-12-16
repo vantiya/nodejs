@@ -17,7 +17,7 @@ exports.getAllReviews = factory.getAll(Review);
 // Get Review By ID
 exports.getReviewById = factory.getOne(Review);
 // Create new Reivew with user id and tour id
-exports.createReview = factory.creatOne(Review);
+exports.createReview = factory.createOne(Review);
 // Update Review
 exports.updateReview = factory.updateOne(Review);
 // Delete Review

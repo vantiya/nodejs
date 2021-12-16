@@ -78,7 +78,7 @@ exports.getAllTours = factory.getAll(Tours);
 exports.getTourById = factory.getOne(Tours, { path: "reviews" });
 
 // Create Tour
-exports.createTour = factory.creatOne(Tours);
+exports.createTour = factory.createOne(Tours);
 
 // Update Tour
 exports.updateTour = factory.updateOne(Tours);
