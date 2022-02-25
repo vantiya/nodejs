@@ -2,6 +2,8 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
+const { emit } = require("process");
+const { count } = require("console");
 
 const app = express();
 const server = http.createServer(app);
@@ -13,6 +15,13 @@ app.use(express.static(pubDirPath));
 
 io.on("connection", (socket) => {
     console.log("Connected to socket");
+
+    socket.emit("message", "Welcome!");
+
+    socket.on("sendMsg", (msg) => {
+        // console.log(msg);
+        io.emit("message", msg);
+    });
 });
 
 server.listen(port, () => {
