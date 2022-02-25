@@ -17,10 +17,14 @@ io.on("connection", (socket) => {
     console.log("Connected to socket");
 
     socket.emit("message", "Welcome!");
+    socket.broadcast.emit("message", "A new user has joinned!");
 
     socket.on("sendMsg", (msg) => {
-        // console.log(msg);
         io.emit("message", msg);
+    });
+
+    socket.on("disconnect", () => {
+        io.emit("message", "A user has left!");
     });
 });
 
