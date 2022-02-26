@@ -14,7 +14,7 @@ formElement.addEventListener("submit", (e) => {
         btnElement.removeAttribute("disabled");
         return;
     }
-    // const msg = e.target.elements.message.value;
+
     socket.emit("sendMsg", msg, (message) => {
         btnElement.removeAttribute("disabled");
         inputElement.value = "";
