@@ -17,8 +17,15 @@ app.use(express.static(pubDirPath));
 io.on("connection", (socket) => {
     console.log("Connected to socket");
 
-    socket.emit('message', generateMessage('Welcome!'))
-    socket.broadcast.emit('message', generateMessage('A new user has joined!'))
+    // socket.emit('message', generateMessage('Welcome!'))
+    // socket.broadcast.emit('message', generateMessage('A new user has joined!'))
+
+    socket.on("join", ({ username, room }) => {
+        socket.join(room);
+
+        socket.emit("message", generateMessage('Welcome!'));
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`));
+    })
 
     socket.on("sendMsg", (msg, callback) => {
         const filter = new Filter()
@@ -27,7 +34,7 @@ io.on("connection", (socket) => {
             return callback('Profanity is not allowed!')
         }
 
-        io.emit('message', generateMessage(message))
+        io.to('Center City').emit('message', generateMessage(message))
         callback()
     });
 

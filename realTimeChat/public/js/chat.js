@@ -9,6 +9,8 @@ const messageElement = document.getElementById("messages")
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
+
 inputElement.focus();
 
 formElement.addEventListener("submit", (e) => {
@@ -66,3 +68,5 @@ socket.on('locationMessage', (message) => {
     })
     messageElement.insertAdjacentHTML('beforeend', html)
 })
+
+socket.emit('join', { username, room })
