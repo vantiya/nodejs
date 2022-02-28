@@ -1,13 +1,13 @@
 {
     "name": "realtimechat",
     "version": "1.0.0",
-    "description": "",
+    "description": "Experimenting Socket.io",
     "main": "index.js",
     "scripts": {
         "start": "node src/index.js",
         "dev": "nodemon src/index.js"
     },
-    "author": "",
+    "author": "Parvez Vantiya",
     "license": "ISC",
     "dependencies": {
         "bad-words": "^3.0.4",
