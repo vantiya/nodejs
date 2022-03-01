@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chat App</title>
+    <title>Chit Chat</title>
     <link rel="icon" href="/img/favicon.png" />
     <link rel="stylesheet" href="/css/styles.min.css" />
   </head>
@@ -23,7 +23,7 @@
     </div>
 
     <script id="message-template" type="text/html">
-      <div class="message">
+      <div class="message div-{{position}}">
         <p>
           <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
@@ -33,7 +33,7 @@
     </script>
 
     <script id="location-message-template" type="text/html">
-      <div class="message">
+      <div class="message div-{{position}}">
         <p>
           <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
