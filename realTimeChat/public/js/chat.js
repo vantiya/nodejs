@@ -10,12 +10,36 @@ const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationMessageTemplate = document.querySelector(
     '#location-message-template'
 ).innerHTML;
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML;
 
 const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
 });
 
 inputElement.focus();
+
+const autoscroll = () => {
+    // New message element
+    const newMessage = messageElement.lastElementChild;
+
+    // Height of the new message
+    const newMessageStyles = getComputedStyle(newMessage);
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+    const newMessageHeight = newMessage.offsetHeight + newMessageMargin;
+
+    // Visible height
+    const visibleHeight = messageElement.offsetHeight;
+
+    // Height of messages container
+    const containerHeight = messageElement.scrollHeight;
+
+    // How far have I scrolled?
+    const scrollOffset = messageElement.scrollTop + visibleHeight;
+
+    if (containerHeight - newMessageHeight <= scrollOffset) {
+        messageElement.scrollTop = messageElement.scrollHeight;
+    }
+};
 
 socket.on('message', (message) => {
     console.log(message);
@@ -24,6 +48,17 @@ socket.on('message', (message) => {
         createdAt: moment(message.createdAt).format('h:mm a'),
     });
     messageElement.insertAdjacentHTML('beforeend', html);
+    autoscroll();
+});
+
+socket.on('locationMessage', (message) => {
+    console.log(message);
+    const html = Mustache.render(locationMessageTemplate, {
+        url: message.url,
+        createdAt: moment(message.createdAt).format('h:mm a'),
+    });
+    messageElement.insertAdjacentHTML('beforeend', html);
+    autoscroll();
 });
 
 formElement.addEventListener('submit', (e) => {
@@ -66,15 +101,6 @@ locationElement.addEventListener('click', () => {
             }
         );
     });
-});
-
-socket.on('locationMessage', (message) => {
-    console.log(message);
-    const html = Mustache.render(locationMessageTemplate, {
-        url: message.url,
-        createdAt: moment(message.createdAt).format('h:mm a'),
-    });
-    messageElement.insertAdjacentHTML('beforeend', html);
 });
 
 socket.emit('join', { username, room }, (error) => {
